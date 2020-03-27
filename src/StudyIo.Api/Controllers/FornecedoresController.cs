@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace StudyIo.Api.Controllers
 {
 	[Route("api/fornecedores")]
+
 	public class FornecedoresController : MainController
 	{
 		private readonly IFornecedorRepository _fornecedorRepository;
@@ -48,17 +49,25 @@ namespace StudyIo.Api.Controllers
 			return fornecedor;
 		}
 
-
-
-		[HttpPost]
+		[HttpPost("Adicionar")]
 		public async Task<ActionResult<FornecedorViewModel>> Adicionar(FornecedorViewModel fornecedorViewModel)
 		{
-			if (!ModelState.IsValid) return CustomResponse();
+			if (!ModelState.IsValid) return CustomResponse(ModelState);
 
 			await _fornecedorService.Adicionar(_mapper.Map<Fornecedor>(fornecedorViewModel));
 
 			return CustomResponse(fornecedorViewModel);
 		}
+
+		//[HttpPost("Adicionar")]
+		//public async Task<ActionResult<FornecedorViewModel>> Adicionar(FornecedorViewModel fornecedorViewModel)
+		//{
+		//	if (!ModelState.IsValid) return CustomResponse();
+
+		//	await _fornecedorService.Adicionar(_mapper.Map<Fornecedor>(fornecedorViewModel));
+
+		//	return CustomResponse(fornecedorViewModel);
+		//}
 
 		[HttpPut]
 		public async Task<ActionResult<FornecedorViewModel>> Atualizar(Guid id, FornecedorViewModel fornecedorViewModel)

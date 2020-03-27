@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 using StudyIo.Api.Configuration;
 using StudyIO.Data.Context;
 
@@ -26,30 +27,34 @@ namespace StudyIo.Api
 
 		public IConfiguration Configuration { get; }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDbContext<StudyIODbContext>(options =>
 			{
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 			});
-			services.AddAutoMapper(typeof(Startup));
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-			services.Configure<ApiBehaviorOptions>(options =>
+			services.AddAutoMapper(typeof(Startup));
+
+			//services.WebApiConfig();
+
+			services.AddControllers().AddNewtonsoftJson(options =>
 			{
-				options.SuppressModelStateInvalidFilter = true;
+				options.SerializerSettings.ContractResolver = new DefaultContractResolver();
 			});
 
 			services.ResolveDependencies();
 		}
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
+			}
+			else
+			{
+				app.UseHsts();
 			}
 
 			app.UseHttpsRedirection();
@@ -62,6 +67,8 @@ namespace StudyIo.Api
 			{
 				endpoints.MapControllers();
 			});
+
+			//app.UseMvcConfiguration();
 		}
 	}
 }
