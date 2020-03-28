@@ -34,14 +34,11 @@ namespace StudyIo.Api
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 			});
 
+			services.AddIdentityConfiguration(Configuration);
+
 			services.AddAutoMapper(typeof(Startup));
 
-			//services.WebApiConfig();
-
-			services.AddControllers().AddNewtonsoftJson(options =>
-			{
-				options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-			});
+			services.WebApiConfig();
 
 			services.ResolveDependencies();
 		}
@@ -57,18 +54,9 @@ namespace StudyIo.Api
 				app.UseHsts();
 			}
 
-			app.UseHttpsRedirection();
+			app.UseAuthentication();
+			app.UseConfiguration();
 
-			app.UseRouting();
-
-			app.UseAuthorization();
-
-			app.UseEndpoints(endpoints =>
-			{
-				endpoints.MapControllers();
-			});
-
-			//app.UseMvcConfiguration();
 		}
 	}
 }

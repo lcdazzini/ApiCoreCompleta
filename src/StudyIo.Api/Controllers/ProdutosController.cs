@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudyIo.Api.ViewModels;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace StudyIo.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class ProdutosController : MainController
     {
@@ -29,6 +31,7 @@ namespace StudyIo.Api.Controllers
             _mapper = mapper;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IEnumerable<ProdutoViewModel>> ObterTodos()
         {
