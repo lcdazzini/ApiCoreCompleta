@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StudyIo.Api.Configuration;
+using StudyIo.Api.Extensions;
 using StudyIO.Data.Context;
 
 namespace StudyIo.Api
@@ -35,6 +36,8 @@ namespace StudyIo.Api
 
 			services.AddSwaggerConfig();
 
+			services.AddLoggingConfiguration(Configuration);
+
 			services.ResolveDependencies();
 		}
 
@@ -52,9 +55,16 @@ namespace StudyIo.Api
 			}
 
 			app.UseAuthentication();
+
+			app.UseMiddleware<ExceptionMiddleware>();
+
 			app.UseConfiguration();
 
 			app.UseSwaggerConfig(provider);
+
+			app.UseLoggingConfiguration();
+
+		
 		}
 	}
 }

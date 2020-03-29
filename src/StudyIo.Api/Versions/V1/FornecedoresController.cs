@@ -23,6 +23,7 @@ namespace StudyIo.Api.Versions.V1
 		private readonly IEnderecoRepository _enderecoRepository;
 		private readonly IMapper _mapper;
 
+
 		public FornecedoresController(
 			IFornecedorRepository fornecedorRepository,
 			IFornecedorService fornecedorService,
@@ -51,7 +52,10 @@ namespace StudyIo.Api.Versions.V1
 		{
 			var fornecedor = await ObterFornecedorProdutosEndereco(id);
 
-			if (fornecedor == null) return NotFound();
+			if (fornecedor == null)
+			{
+				return NotFound();
+			}
 
 			return fornecedor;
 		}
