@@ -6,7 +6,7 @@ namespace StudyIO.Data.Context
 {
 	public class StudyIODbContext : DbContext
 	{
-		public StudyIODbContext(DbContextOptions options) : base(options) { }
+		public StudyIODbContext(DbContextOptions<StudyIODbContext> options) : base(options) { }
 
 
 		public DbSet<Endereco> Enderecos { get; set; }
