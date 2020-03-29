@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StudyIo.Api.Data;
+using StudyIo.Api.Extensions;
 
 namespace StudyIo.Api.Configuration
 {
@@ -16,6 +17,7 @@ namespace StudyIo.Api.Configuration
 			services.AddDefaultIdentity<IdentityUser>()
 				.AddRoles<IdentityRole>()
 				.AddEntityFrameworkStores<ApplicationDbContext>()
+				.AddErrorDescriber<IdentityMensagensPortugues>()
 				.AddDefaultTokenProviders();
 
 			return services;
