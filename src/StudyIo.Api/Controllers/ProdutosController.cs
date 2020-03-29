@@ -25,7 +25,8 @@ namespace StudyIo.Api.Controllers
             INotificador notificador,
             IProdutoRepository produtoRepository,
             IProdutoService produtoService,
-            IMapper mapper) : base(notificador)
+            IUser user,
+            IMapper mapper) : base(notificador, user)
         {
             _produtoRepository = produtoRepository;
             _produtoService = produtoService;

@@ -26,7 +26,8 @@ namespace StudyIo.Api.Controllers
 			IFornecedorService fornecedorService,
 			IEnderecoRepository enderecoRepository,
 			IMapper mapper,
-			INotificador notificador) : base(notificador)
+			IUser user,
+			INotificador notificador) : base(notificador, user)
 		{
 			_fornecedorRepository = fornecedorRepository;
 			_fornecedorService = fornecedorService;

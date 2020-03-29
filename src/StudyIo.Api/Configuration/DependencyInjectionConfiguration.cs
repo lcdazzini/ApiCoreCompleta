@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using StudyIo.Api.Extensions;
 using StudyIO.Business.Interfaces;
 using StudyIO.Business.Notifications;
 using StudyIO.Business.Services;
@@ -25,6 +27,9 @@ namespace StudyIo.Api.Configuration
 
 			// Notificador
 			services.AddScoped<INotificador, Notificador>();
+
+			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+			services.AddScoped<IUser, AspNetUser>();
 			return services;
 		}
 	}

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using StudyIO.Business.Interfaces;
 using StudyIO.Business.Notifications;
+using System;
 using System.Linq;
 
 namespace StudyIo.Api.Controllers
@@ -10,10 +11,23 @@ namespace StudyIo.Api.Controllers
 	public abstract class MainController : ControllerBase
 	{
 		private readonly INotificador _notificador;
+		public readonly IUser _appUser;
 
-		public MainController(INotificador notificador)
+		protected Guid UsuarioId { get; set; }
+		protected bool UsuarioAutenticado { get; set; }
+
+		public MainController(
+			INotificador notificador,
+			IUser appUser)
 		{
 			_notificador = notificador;
+			_appUser = appUser;
+
+			if (appUser.IsAuthenticated())
+			{
+				UsuarioId = appUser.GetUserId();
+				UsuarioAutenticado = true;
+			}
 		}
 
 		protected bool OperacaoValida()
