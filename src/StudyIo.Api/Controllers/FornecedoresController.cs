@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StudyIo.Api.Extensions;
 using StudyIo.Api.ViewModels;
 using StudyIO.Business.Interfaces;
 using StudyIO.Business.Models;
@@ -9,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace StudyIo.Api.Controllers
 {
+	[Authorize]
 	[Route("api/fornecedores")]
 
 	public class FornecedoresController : MainController
@@ -39,7 +42,8 @@ namespace StudyIo.Api.Controllers
 			return fornecedor;
 		}
 
-		[HttpGet("id:guid")]
+
+		[HttpGet("{id:guid}")]
 		public async Task<ActionResult<FornecedorViewModel>> ObterPorId(Guid id)
 		{
 			var fornecedor = await ObterFornecedorProdutosEndereco(id);
@@ -49,6 +53,7 @@ namespace StudyIo.Api.Controllers
 			return fornecedor;
 		}
 
+		[ClaimsAuthorize("Fornecedor", "Adicionar")]
 		[HttpPost("Adicionar")]
 		public async Task<ActionResult<FornecedorViewModel>> Adicionar(FornecedorViewModel fornecedorViewModel)
 		{
@@ -59,16 +64,7 @@ namespace StudyIo.Api.Controllers
 			return CustomResponse(fornecedorViewModel);
 		}
 
-		//[HttpPost("Adicionar")]
-		//public async Task<ActionResult<FornecedorViewModel>> Adicionar(FornecedorViewModel fornecedorViewModel)
-		//{
-		//	if (!ModelState.IsValid) return CustomResponse();
-
-		//	await _fornecedorService.Adicionar(_mapper.Map<Fornecedor>(fornecedorViewModel));
-
-		//	return CustomResponse(fornecedorViewModel);
-		//}
-
+		[ClaimsAuthorize("Fornecedor", "Editar")]
 		[HttpPut]
 		public async Task<ActionResult<FornecedorViewModel>> Atualizar(Guid id, FornecedorViewModel fornecedorViewModel)
 		{
@@ -92,6 +88,7 @@ namespace StudyIo.Api.Controllers
 			return enderecoViewModel;
 		}
 
+		[ClaimsAuthorize("Fornecedor", "Editar")]
 		[HttpPut("atualizar-endereco/{id:guid}")]
 		public async Task<IActionResult> AtualizarEndereco(Guid id, EnderecoViewModel enderecoViewModel)
 		{
@@ -108,6 +105,7 @@ namespace StudyIo.Api.Controllers
 			return CustomResponse(enderecoViewModel);
 		}
 
+		[ClaimsAuthorize("Fornecedor", "Excluir")]
 		[HttpDelete("{id:guid}")]
 		public async Task<ActionResult<FornecedorViewModel>> Excluir(Guid id)
 		{
@@ -121,12 +119,12 @@ namespace StudyIo.Api.Controllers
 		}
 
 
-		public async Task<FornecedorViewModel> ObterFornecedorProdutosEndereco(Guid id)
+		private async Task<FornecedorViewModel> ObterFornecedorProdutosEndereco(Guid id)
 		{
 			return _mapper.Map<FornecedorViewModel>(await _fornecedorRepository.ObterFornecedorProdutosEndereco(id));
 		}
 
-		public async Task<FornecedorViewModel> ObterFornecedorEndereco(Guid id)
+		private async Task<FornecedorViewModel> ObterFornecedorEndereco(Guid id)
 		{
 			return _mapper.Map<FornecedorViewModel>(await _fornecedorRepository.ObterFornecedorEndereco(id));
 		}
