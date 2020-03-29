@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StudyIo.Api.Controllers;
 using StudyIo.Api.Extensions;
 using StudyIo.Api.ViewModels;
 using StudyIO.Business.Interfaces;
@@ -9,10 +10,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace StudyIo.Api.Controllers
+namespace StudyIo.Api.Versions.V2
 {
 	[Authorize]
-	[Route("api/fornecedores")]
+	[ApiVersion("2.0")]
+	[Route("api/versions/v{version:apiVersion}/fornecedores")]
 
 	public class FornecedoresController : MainController
 	{
@@ -35,6 +37,7 @@ namespace StudyIo.Api.Controllers
 			_mapper = mapper;
 		}
 
+		[AllowAnonymous]
 		[HttpGet]
 		public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
 		{

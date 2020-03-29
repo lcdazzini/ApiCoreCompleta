@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using StudyIo.Api.Controllers;
 using StudyIo.Api.Extensions;
 using StudyIo.Api.ViewModels;
 using StudyIO.Business.Interfaces;
@@ -12,9 +13,11 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudyIo.Api.Controllers
+namespace StudyIo.Api.Versions.V1
+
 {
-	[Route("api")]
+	[ApiVersion("1.0")]
+	[Route("api/versions/v{version:apiVersion}/")]
 	public class AuthController : MainController
 	{
 		private readonly SignInManager<IdentityUser> _signInManager;
