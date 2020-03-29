@@ -35,7 +35,7 @@ namespace StudyIo.Api.Configuration
 			services.AddHealthChecks()
 				.AddElmahIoPublisher(options =>
 				{
-					options.ApiKey = "3b94bbbcb41e41e0991309dcfe373e8a"; 
+					options.ApiKey = "3b94bbbcb41e41e0991309dcfe373e8a";
 					options.LogId = new Guid("db7beab9-7923-4003-8d2c-ab77948f1868");
 					options.Application = "Api Fornecedores";
 					options.HeartbeatId = Guid.NewGuid().ToString();
@@ -59,9 +59,10 @@ namespace StudyIo.Api.Configuration
 				ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 			});
 
-			app.UseHealthChecksUI(options =>
+			app.UseEndpoints(config =>
 			{
-				options.UIPath = "/api/healthcheck";
+				// healthchecks on /healthchecks-ui
+				config.MapHealthChecksUI();
 			});
 
 			return app;
